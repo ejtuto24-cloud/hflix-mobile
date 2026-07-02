@@ -12,6 +12,7 @@ import RegisterScreen from '../screens/auth/RegisterScreen';
 // ===== ÉCRANS PRINCIPAUX =====
 import HomeScreen from '../screens/home/HomeScreen';
 import MovieDetailScreen from '../screens/movie/MovieDetailScreen';
+import VideoPlayerScreen from '../screens/movie/VideoPlayerScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import PaymentScreen from '../screens/payment/PaymentScreen';
 
@@ -74,6 +75,7 @@ const MainNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Tabs" component={TabNavigator} />
     <Stack.Screen name="MovieDetail" component={MovieDetailScreen} />
+    <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
   </Stack.Navigator>
 );
 

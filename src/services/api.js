@@ -14,7 +14,6 @@ const api = axios.create({
 });
 
 // ===== INTERCEPTEUR DE REQUÊTE =====
-// Ajoute automatiquement le token JWT à chaque requête
 api.interceptors.request.use(
   async (config) => {
     try {
@@ -33,12 +32,10 @@ api.interceptors.request.use(
 );
 
 // ===== INTERCEPTEUR DE RÉPONSE =====
-// Gère les erreurs automatiquement
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Token expiré, supprimer les données locales
       await AsyncStorage.removeItem('token');
       await AsyncStorage.removeItem('user');
     }
@@ -76,6 +73,7 @@ export const paymentService = {
   create: (data) => api.post('/payments', data),
   uploadScreenshot: (id, data) => api.put(`/payments/${id}/screenshot`, data),
   getMyPayments: () => api.get('/payments/my'),
+  getPaymentInfo: () => api.get('/payment-info'),
 };
 
 // ===== SERVICES UTILISATEUR =====
