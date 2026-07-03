@@ -54,22 +54,15 @@ export const AuthProvider = ({ children }) => {
 
   // ===== INSCRIPTION =====
   const register = async (name, email, password) => {
-    try {
-      const response = await authService.register({ name, email, password });
-      const { user, token } = response.data.data;
-
-      await AsyncStorage.setItem('token', token);
-      await AsyncStorage.setItem('user', JSON.stringify(user));
-
-      setUser(user);
-      setToken(token);
-
-      return { success: true };
-    } catch (error) {
-      const message = error.response?.data?.message || 'Erreur lors de l\'inscription.';
-      return { success: false, message };
-    }
-  };
+  try {
+    const response = await authService.register({ name, email, password });
+    // Ne pas connecter automatiquement - attendre la vérification email
+    return { success: true };
+  } catch (error) {
+    const message = error.response?.data?.message || 'Erreur lors de l\'inscription.';
+    return { success: false, message };
+  }
+};
 
   // ===== DÉCONNEXION =====
   const logout = async () => {

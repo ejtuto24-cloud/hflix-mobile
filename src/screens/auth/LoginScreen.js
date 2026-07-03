@@ -82,6 +82,17 @@ const LoginScreen = ({ navigation }) => {
             )}
           </TouchableOpacity>
 
+          {/* Lien mot de passe oublié */}
+          <TouchableOpacity
+            style={styles.linkContainer}
+            onPress={() => navigation.navigate('ForgotPassword')}
+          >
+            <Text style={styles.linkText}>
+              <Text style={styles.link}>Mot de passe oublié ?</Text>
+            </Text>
+          </TouchableOpacity>
+
+          {/* Lien inscription */}
           <TouchableOpacity
             style={styles.linkContainer}
             onPress={() => navigation.navigate('Register')}
@@ -90,6 +101,7 @@ const LoginScreen = ({ navigation }) => {
               Pas de compte ? <Text style={styles.link}>Créer un compte</Text>
             </Text>
           </TouchableOpacity>
+
         </View>
 
       </ScrollView>
@@ -154,7 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   linkContainer: {
-    marginTop: 20,
+    marginTop: 16,
     alignItems: 'center',
   },
   linkText: {

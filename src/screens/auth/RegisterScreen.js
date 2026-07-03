@@ -43,6 +43,9 @@ const RegisterScreen = ({ navigation }) => {
 
     if (!result.success) {
       Alert.alert('Erreur', result.message);
+    } else {
+      // Rediriger vers la vérification email
+      navigation.navigate('VerifyEmail', { email });
     }
   };
 
@@ -119,6 +122,7 @@ const RegisterScreen = ({ navigation }) => {
               Déjà un compte ? <Text style={styles.link}>Se connecter</Text>
             </Text>
           </TouchableOpacity>
+
         </View>
 
       </ScrollView>
