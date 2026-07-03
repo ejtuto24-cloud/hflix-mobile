@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,17 +9,39 @@ import {
   ScrollView,
 } from 'react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
+import * as ScreenCapture from 'expo-screen-capture';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const VideoPlayerScreen = ({ route, navigation }) => {
   const { movie } = route.params;
   const ref = useRef(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const player = useVideoPlayer(movie.videoUrl, (player) => {
     player.play();
   });
+
+  useEffect(() => {
+    // ===== BLOQUER LE SCREEN RECORDING =====
+    const blockScreenCapture = async () => {
+      try {
+        await ScreenCapture.preventScreenCaptureAsync();
+      } catch (error) {
+        console.log('Screen capture prevention:', error);
+      }
+    };
+
+    blockScreenCapture();
+
+    // ===== DÉBLOQUER QUAND ON QUITTE =====
+    return async () => {
+      try {
+        await ScreenCapture.allowScreenCaptureAsync();
+      } catch (error) {
+        console.log('Screen capture allow:', error);
+      }
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -50,10 +72,9 @@ const VideoPlayerScreen = ({ route, navigation }) => {
       {/* ===== INFORMATIONS ===== */}
       <ScrollView style={styles.infoScroll} showsVerticalScrollIndicator={false}>
 
-        {/* Titre et meta */}
         <View style={styles.infoContainer}>
 
-          {/* Badge nouveau */}
+          {/* Badge */}
           <View style={styles.badgeRow}>
             <View style={styles.badge}>
               <Text style={styles.badgeText}>NOUVEAU</Text>
@@ -74,9 +95,8 @@ const VideoPlayerScreen = ({ route, navigation }) => {
           {/* Catégorie */}
           <Text style={styles.category}>{movie.category?.name}</Text>
 
-          {/* Boutons d'action */}
+          {/* Boutons */}
           <View style={styles.actionButtons}>
-
             <TouchableOpacity
               style={styles.playButton}
               onPress={() => player.play()}
@@ -90,7 +110,6 @@ const VideoPlayerScreen = ({ route, navigation }) => {
             >
               <Text style={styles.pauseButtonText}>⏸  Pause</Text>
             </TouchableOpacity>
-
           </View>
 
           {/* Description */}
@@ -98,7 +117,7 @@ const VideoPlayerScreen = ({ route, navigation }) => {
             <Text style={styles.description}>{movie.description}</Text>
           )}
 
-          {/* Ligne de séparation */}
+          {/* Séparateur */}
           <View style={styles.separator} />
 
           {/* Détails */}
@@ -122,6 +141,10 @@ const VideoPlayerScreen = ({ route, navigation }) => {
                 </Text>
               </View>
             )}
+            {/* Badge sécurité */}
+            <View style={styles.secureRow}>
+              <Text style={styles.secureText}>🔒 Contenu protégé contre l'enregistrement</Text>
+            </View>
           </View>
 
         </View>
@@ -275,6 +298,16 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     flex: 1,
+  },
+  secureRow: {
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#222',
+  },
+  secureText: {
+    color: '#555',
+    fontSize: 12,
   },
 });
 
