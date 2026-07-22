@@ -107,15 +107,18 @@ const ProfileScreen = ({ navigation }) => {
         </View>
         <Text style={styles.userName}>{profile?.name}</Text>
         <Text style={styles.userEmail}>{profile?.email}</Text>
+        {profile?.isEmailVerified ? (
+          <Text style={styles.verifiedBadge}>✅ Email vérifié</Text>
+        ) : (
+          <Text style={styles.unverifiedBadge}>⚠️ Email non vérifié</Text>
+        )}
       </View>
 
       {/* Abonnement */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Abonnement</Text>
         <View style={styles.subscriptionCard}>
-          <Text style={styles.subscriptionStatus}
-            style={[styles.subscriptionStatus, { color: getSubscriptionColor(profile?.subscription?.status) }]}
-          >
+          <Text style={[styles.subscriptionStatus, { color: getSubscriptionColor(profile?.subscription?.status) }]}>
             {getSubscriptionText(profile?.subscription?.status)}
           </Text>
           {profile?.subscription?.endDate && (
@@ -161,6 +164,15 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.menuItemText}>💳 Mes paiements</Text>
           <Text style={styles.menuItemArrow}>→</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => navigation.navigate('MovieRequest')}
+        >
+          <Text style={styles.menuItemText}>🎬 Demander un film</Text>
+          <Text style={styles.menuItemArrow}>→</Text>
+        </TouchableOpacity>
+
       </View>
 
       {/* Actions */}
@@ -226,6 +238,18 @@ const styles = StyleSheet.create({
     color: '#888',
     fontSize: 14,
     marginTop: 4,
+  },
+  verifiedBadge: {
+    color: '#00C851',
+    fontSize: 13,
+    marginTop: 8,
+    fontWeight: 'bold',
+  },
+  unverifiedBadge: {
+    color: '#FFB300',
+    fontSize: 13,
+    marginTop: 8,
+    fontWeight: 'bold',
   },
   section: {
     marginHorizontal: 20,

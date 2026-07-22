@@ -17,6 +17,7 @@ import MovieDetailScreen from '../screens/movie/MovieDetailScreen';
 import VideoPlayerScreen from '../screens/movie/VideoPlayerScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import PaymentScreen from '../screens/payment/PaymentScreen';
+import MovieRequestScreen from '../screens/requests/MovieRequestScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -80,6 +81,7 @@ const MainNavigator = () => (
     <Stack.Screen name="Tabs" component={TabNavigator} />
     <Stack.Screen name="MovieDetail" component={MovieDetailScreen} />
     <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
+    <Stack.Screen name="MovieRequest" component={MovieRequestScreen} />
   </Stack.Navigator>
 );
 
